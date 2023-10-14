@@ -8,6 +8,8 @@ softdepend:
   - CMI
   - Essentials
   - AuthMe
+  - CatSeedLogin
+  - NexAuth
 authors: [ DongShaoNB ]
 description: Support bedrock player fast use java plugin
 website: www.dsnbo.cn

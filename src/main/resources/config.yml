@@ -4,7 +4,7 @@ check-update: true
 bedrock-player-teleport-menu: true
 # 登录系统支持
 login:
-  # 是否启用基岩版玩家进服自动登录 (仅支持AuthMe)
+  # 是否启用基岩版玩家进服自动登录 (支持AuthMe/CatSeedLogin/NexAuth)
   # 请注意，注册仍需玩家手动注册，后续登录才可以自动登录
   enable: false
   # 自动登录时发送给基岩版玩家的信息

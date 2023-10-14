@@ -2,9 +2,11 @@ package cn.dsnbo.bedrockplayersupport;
 
 import cn.dsnbo.bedrockplayersupport.command.tpaCommand;
 import cn.dsnbo.bedrockplayersupport.command.tpahereCommand;
-import cn.dsnbo.bedrockplayersupport.listeners.PlayerListener;
+import cn.dsnbo.bedrockplayersupport.listeners.login.AuthMeLoginListener;
 import cn.dsnbo.bedrockplayersupport.listeners.CMITeleportListener;
+import cn.dsnbo.bedrockplayersupport.listeners.login.CatSeedLoginListener;
 import cn.dsnbo.bedrockplayersupport.listeners.EssXTeleportListener;
+import cn.dsnbo.bedrockplayersupport.listeners.login.NexAuthLoginListener;
 import cn.dsnbo.bedrockplayersupport.utils.Update;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -21,6 +23,8 @@ public final class BedrockPlayerSupport extends JavaPlugin implements Listener {
     private boolean isCmiEnabled;
     private boolean isEssxEnabled;
     private boolean isAuthMeEnabled;
+    private boolean isCatSeedLoginEnabled;
+    private boolean isNexAuthEnabled;
     private boolean isFloodgateEnabled;
     private static final String VERSION = "1.5.2";
 
@@ -37,6 +41,8 @@ public final class BedrockPlayerSupport extends JavaPlugin implements Listener {
         isCmiEnabled = !(Bukkit.getPluginManager().getPlugin("CMI") == null);
         isEssxEnabled = !(Bukkit.getPluginManager().getPlugin("Essentials") == null);
         isAuthMeEnabled = !(Bukkit.getPluginManager().getPlugin("AuthMe") == null);
+        isCatSeedLoginEnabled = !(Bukkit.getPluginManager().getPlugin("CatSeedLogin") == null);
+        isNexAuthEnabled = !(Bukkit.getPluginManager().getPlugin("NexAuth") == null);
         isFloodgateEnabled = !(Bukkit.getPluginManager().getPlugin("floodgate") == null);
         new Metrics(this, 17107);
         if (isCmiEnabled) {
@@ -70,11 +76,29 @@ public final class BedrockPlayerSupport extends JavaPlugin implements Listener {
         } else {
             getLogger().info("§bAuthMe: §cfalse");
         }
+
+        if (isCatSeedLoginEnabled) {
+            getLogger().info("§bCatSeedLogin: §atrue");
+        } else {
+            getLogger().info("§bCatSeedLogin: §cfalse");
+        }
+
+        if (isNexAuthEnabled) {
+            getLogger().info("§bNexAuth: §atrue");
+        } else {
+            getLogger().info("§bNexAuth: §cfalse");
+        }
         getLogger().info("-----------------");
 
         if (getConfig().getBoolean("login.enable")) {
             if (isAuthMeEnabled) {
-                Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
+                Bukkit.getPluginManager().registerEvents(new AuthMeLoginListener(), this);
+            }
+            if (isCatSeedLoginEnabled) {
+                Bukkit.getPluginManager().registerEvents(new CatSeedLoginListener(), this);
+            }
+            if (isNexAuthEnabled) {
+                Bukkit.getPluginManager().registerEvents(new NexAuthLoginListener(), this);
             }
         }
 

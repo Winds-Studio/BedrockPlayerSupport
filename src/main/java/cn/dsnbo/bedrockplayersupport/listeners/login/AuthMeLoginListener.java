@@ -1,7 +1,8 @@
-package cn.dsnbo.bedrockplayersupport.listeners;
+package cn.dsnbo.bedrockplayersupport.listeners.login;
 
 import cn.dsnbo.bedrockplayersupport.BedrockPlayerSupport;
 import fr.xephi.authme.api.v3.AuthMeApi;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +12,7 @@ import org.geysermc.floodgate.api.FloodgateApi;
 /**
  * @author DongShaoNB
  */
-public class PlayerListener implements Listener {
+public class AuthMeLoginListener implements Listener {
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player player = e.getPlayer();
@@ -20,6 +21,7 @@ public class PlayerListener implements Listener {
                 if (AuthMeApi.getInstance().isRegistered(player.getName())) {
                     if (BedrockPlayerSupport.getInstance().getConfig().getBoolean("login.enable")) {
                         AuthMeApi.getInstance().forceLogin(player);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', BedrockPlayerSupport.getInstance().getConfig().getString("login.auto-message")));
                     }
                 }
             }
