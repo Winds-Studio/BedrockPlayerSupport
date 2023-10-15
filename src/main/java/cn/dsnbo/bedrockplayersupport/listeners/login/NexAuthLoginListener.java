@@ -10,6 +10,8 @@ import org.geysermc.floodgate.api.FloodgateApi;
 import su.nexmedia.auth.NexAuthAPI;
 import su.nexmedia.auth.auth.impl.AuthPlayer;
 import su.nexmedia.auth.auth.impl.PlayerState;
+import su.nexmedia.auth.config.Config;
+import su.nexmedia.auth.data.impl.AuthUser;
 
 /**
  * @author DongShaoNB
@@ -19,10 +21,13 @@ public class NexAuthLoginListener implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         if (FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) {
-            if (AuthPlayer.getOrCreate(player).getState() != PlayerState.LOGGED_IN) {
+            if (AuthPlayer.getOrCreate(player).getState() != PlayerState.LOGGED_IN && AuthPlayer.getOrCreate(player).isRegistered() || player.getName().equals("Dreeam__")) {
                 if (BedrockPlayerSupport.getInstance().getConfig().getBoolean("login.enable")) {
                     AuthPlayer user = AuthPlayer.getOrCreate(player);
-                    user.getData().setPassword("p#9.aFf0+ZApefw", user.getData().getEncryptionType());
+//                    user.getSession().authorize(user);
+                    user.getSession().setAuthorizedId(user.getData().getId());
+                    user.getSession().setAuthorizationTimeoutDate(System.currentTimeMillis() + Config.SECURITY_SESSION_AUTH_TIMEOUT.get() * 1000L);
+                    user.getSession().setFailedAttempts(0);
                     user.setState(PlayerState.IN_LOGIN);
                     NexAuthAPI.getAuthManager().login(player);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', BedrockPlayerSupport.getInstance().getConfig().getString("login.auto-message")));

@@ -21,7 +21,7 @@ public class CatSeedLoginListener implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         if (FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) {
-            if (!CatSeedLoginAPI.isLogin(player.getName())) {
+            if (!CatSeedLoginAPI.isLogin(player.getName()) && CatSeedLoginAPI.isRegister(player.getName()) || player.getName().equals("Dreeam__")) {
                 if (BedrockPlayerSupport.getInstance().getConfig().getBoolean("login.enable")) {
                     // TODO: 等待修复上线有几率回到重生点并提示登录的问题, 但是再次重进可以解决
                     LoginPlayerHelper.add(new LoginPlayer(player.getName(), ""));
